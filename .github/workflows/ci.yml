@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v6 # zizmor: ignore[unpinned-uses] trusted source
+        uses: actions/checkout@v6.0.2 # zizmor: ignore[unpinned-uses] trusted source
         with:
           persist-credentials: false
 
@@ -80,7 +80,7 @@ jobs:
     steps:
       - name: Checkout
         id: checkout
-        uses: actions/checkout@v6 # zizmor: ignore[unpinned-uses] trusted source
+        uses: actions/checkout@v6.0.2 # zizmor: ignore[unpinned-uses] trusted source
         with:
           persist-credentials: false
 
