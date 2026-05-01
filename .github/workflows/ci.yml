@@ -51,7 +51,7 @@ jobs:
 
       - name: Upload static files as artifact
         if: ${{ github.event_name != 'pull_request' }}
-        uses: actions/upload-pages-artifact@v4 # zizmor: ignore[unpinned-uses] trusted source
+        uses: actions/upload-pages-artifact@v5 # zizmor: ignore[unpinned-uses] trusted source
         with:
           path: ./.github/pages
 
