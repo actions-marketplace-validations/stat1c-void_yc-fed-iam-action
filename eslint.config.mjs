@@ -1,50 +1,32 @@
-// See: https://eslint.org/docs/latest/use/configure/configuration-files
-
-import { fixupPluginRules } from "@eslint/compat";
-import { FlatCompat } from "@eslint/eslintrc";
+import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
-import _import from "eslint-plugin-import";
 import jest from "eslint-plugin-jest";
-import prettier from "eslint-plugin-prettier";
 import globals from "globals";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
-
-export default [
+export default defineConfig([
   {
-    ignores: ["**/coverage", "**/dist", "**/linter", "**/node_modules"],
+    ignores: ["**/coverage", "**/dist", "**/node_modules"],
   },
-  ...compat.extends(
-    "eslint:recommended",
-    "plugin:jest/recommended",
-    "plugin:prettier/recommended"
-  ),
+  js.configs.recommended,
   {
-    plugins: {
-      import: fixupPluginRules(_import),
-      jest,
-      prettier,
-    },
-
+    files: ["**/*.test.js"],
+    ...jest.configs["flat/recommended"],
     languageOptions: {
       globals: {
         ...globals.node,
-        Atomics: "readonly",
-        SharedArrayBuffer: "readonly",
+        ...jest.environments.globals.globals,
       },
-
+    },
+  },
+  {
+    files: ["**/*.js", "**/*.mjs"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
       ecmaVersion: 2023,
       sourceType: "module",
     },
-
     rules: {
       camelcase: "off",
       "i18n-text/no-en": "off",
@@ -52,7 +34,6 @@ export default [
       "no-console": "off",
       "no-shadow": "off",
       "no-unused-vars": "warn",
-      "prettier/prettier": "error",
     },
   },
-];
+]);

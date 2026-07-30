@@ -57,14 +57,10 @@ async function getYcIamToken(idToken, servAccId) {
   };
   const reqBody = new URLSearchParams(reqParams).toString();
 
-  const resp = await client.post(
-    "https://auth.yandex.cloud/oauth/token",
-    reqBody,
-    {
-      accept: MediaTypes.ApplicationJson,
-      "content-type": "application/x-www-form-urlencoded",
-    }
-  );
+  const resp = await client.post("https://auth.yandex.cloud/oauth/token", reqBody, {
+    accept: MediaTypes.ApplicationJson,
+    "content-type": "application/x-www-form-urlencoded",
+  });
   const body = await resp.readBody();
 
   if (resp.message.statusCode !== 200) {
@@ -148,7 +144,8 @@ function parseResponse(body) {
     const data = validateResponse(JSON.parse(body));
     return { token: data.access_token, expiresIn: data.expires_in };
   } catch (err) {
-    throw new Error(`Failed to parse response: ${err}`);
+    // noinspection JSCheckFunctionSignatures
+    throw new Error(`Failed to parse response: ${err}`, { cause: err });
   }
 }
 
